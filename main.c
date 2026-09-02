@@ -13,12 +13,18 @@ int main(int argc, char *argv[]) {
         safe_mkdir(".v");
         safe_mkdir(".v/objects");
         safe_mkdir(".v/objects/blobs");
+        FILE *fp = fopen(".vi", "w");
+        if (fp == NULL) {
+            printf("maybe next time\n");
+            return 1;
+        }
+        fclose(fp);
     } else if (strcmp(argv[1], "s") == 0) {
         do {
             sprintf(path, ".v/objects/%d", number);
             number++;
-        } while (access(path, F_OK) == 0);
-
+        } while (access(path, F_OK) == 0); 
+        
         safe_mkdir(path);
         cd(".", path, "");
         printf("happy end!\n");
@@ -36,8 +42,9 @@ int main(int argc, char *argv[]) {
         }
         dd(".");
         restore_version(path);
+        // cd(path, ".");
     } else {
-        printf("i don't know what you're talking about, but good luck");
+        printf("i don't know what you're talking about, but good luck\n");
     }
 
     return 0;

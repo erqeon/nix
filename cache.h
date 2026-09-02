@@ -22,28 +22,50 @@ void safe_mkdir(const char *path) {
 }
 
 int is_ignored(const char *name) {
-    FILE *vi_file = fopen(".vi", "r");
-    if (!vi_file) return 0; 
-
-    char line[256];
-    int ignored = 0;
-
-    while (fgets(line, sizeof(line), vi_file)) {
-        line[strcspn(line, "\n")] = '\0';
-        line[strcspn(line, "\r")] = '\0';
-
-        if (strlen(line) == 0) continue;
-
-        if (strcmp(name, line) == 0) {
-            ignored = 1;
-            break;
-        }
+    if (strcmp(name, ".v") == 0 || strcmp(name, ".vi") == 0) {
+        return 0;
     }
 
-    fclose(vi_file);
+    int ignored = 0;
+
+    FILE *vi_file = fopen(".vi", "r");
+    if (vi_file) {
+        char line[256];
+        while (fgets(line, sizeof(line), vi_file)) {
+            line[strcspn(line, "\n")] = '\0';
+            line[strcspn(line, "\r")] = '\0';
+
+            if (strlen(line) == 0) continue;
+
+            if (strcmp(name, line) == 0) {
+                ignored = 1;
+                break;
+            }      
+        }
+        fclose(vi_file);
+    }
+
+    if (ignored) return 1;
+
+    FILE *git_file = fopen(".gitignore", "r");
+    if (git_file) {
+        char line[256];
+        while (fgets(line, sizeof(line), git_file)) {
+            line[strcspn(line, "\n")] = '\0';
+            line[strcspn(line, "\r")] = '\0';
+
+            if (strlen(line) == 0) continue;
+
+            if (strcmp(name, line) == 0) {
+                ignored = 1;
+                break;
+            }      
+        }
+        fclose(git_file);
+    }
+
     return ignored;
 }
-
 
 void cf(const char *src, const char *dst) {
     FILE *in = fopen(src, "rb");
@@ -86,7 +108,7 @@ void cd(const char *src_dir, const char *dst_dir, const char *rel_path) {
             continue;
         }
 
-        if (strcmp(src_dir, ".") == 0 && (strcmp(entry->d_name, "v") == 0 || strcmp(entry->d_name, "main") == 0 || strcmp(entry->d_name, ".v") == 0 || strcmp(entry->d_name, ".vi") == 0)) {
+        if (strcmp(src_dir, ".") == 0 && (strcmp(entry->d_name, "v") == 0 || strcmp(entry->d_name, "main") == 0 || strcmp(entry->d_name, ".v") == 0 || strcmp(entry->d_name, ".vi") == 0 || strcmp(entry->d_name, ".gitignore") == 0)) {
             continue;
         }
 
