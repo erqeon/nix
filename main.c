@@ -12,14 +12,15 @@ int main(int argc, char *argv[]) {
     if (strcmp(argv[1], "i") == 0) {
         safe_mkdir(".v");
         safe_mkdir(".v/objects");
+        safe_mkdir(".v/objects/blobs");
     } else if (strcmp(argv[1], "s") == 0) {
         do {
             sprintf(path, ".v/objects/%d", number);
             number++;
-        } while (access(path, F_OK) == 0); 
-        
+        } while (access(path, F_OK) == 0);
+
         safe_mkdir(path);
-        cd(".", path);
+        cd(".", path, "");
         printf("happy end!\n");
     } else if (strcmp(argv[1], "r") == 0) {
         if (argc >= 3) {
@@ -34,7 +35,7 @@ int main(int argc, char *argv[]) {
             return 1;
         }
         dd(".");
-        cd(path, ".");
+        restore_version(path);
     } else {
         printf("i don't know what you're talking about, but good luck");
     }
