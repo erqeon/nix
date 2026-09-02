@@ -108,7 +108,14 @@ void cd(const char *src_dir, const char *dst_dir, const char *rel_path) {
             continue;
         }
 
-        if (strcmp(src_dir, ".") == 0 && (strcmp(entry->d_name, "v") == 0 || strcmp(entry->d_name, "main") == 0 || strcmp(entry->d_name, ".v") == 0 || strcmp(entry->d_name, ".vi") == 0 || strcmp(entry->d_name, ".gitignore") == 0)) {
+        if (strcmp(src_dir, ".") == 0 && (
+            strcmp(entry->d_name, "v") == 0 || 
+            strcmp(entry->d_name, "main") == 0 || 
+            strcmp(entry->d_name, ".v") == 0 || 
+            strcmp(entry->d_name, ".vi") == 0 || 
+            strcmp(entry->d_name, ".git") == 0 || 
+            strcmp(entry->d_name, ".gitignore") == 0
+        )) {
             continue;
         }
 
@@ -225,7 +232,14 @@ void dd(const char *src_dir) {
             continue;
         }
 
-        if (strcmp(src_dir, ".") == 0 && (strcmp(entry->d_name, "v") == 0 || strcmp(entry->d_name, "main") == 0 || strcmp(entry->d_name, ".v") == 0 || strcmp(entry->d_name, ".vi") == 0)) {
+        if (strcmp(src_dir, ".") == 0 && (
+            strcmp(entry->d_name, "v") == 0 || 
+            strcmp(entry->d_name, "main") == 0 || 
+            strcmp(entry->d_name, ".v") == 0 || 
+            strcmp(entry->d_name, ".vi") == 0 || 
+            strcmp(entry->d_name, ".git") == 0 || 
+            strcmp(entry->d_name, ".gitignore") == 0
+        )) {
             continue;
         }
 
