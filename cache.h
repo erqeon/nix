@@ -28,10 +28,10 @@ int is_ignored(const char *name) {
 
     int ignored = 0;
 
-    FILE *vi_file = fopen(".vi", "r");
-    if (vi_file) {
+    FILE *ni_file = fopen(".ni", "r");
+    if (ni_file) {
         char line[256];
-        while (fgets(line, sizeof(line), vi_file)) {
+        while (fgets(line, sizeof(line), ni_file)) {
             line[strcspn(line, "\n")] = '\0';
             line[strcspn(line, "\r")] = '\0';
 
@@ -42,7 +42,7 @@ int is_ignored(const char *name) {
                 break;
             }      
         }
-        fclose(vi_file);
+        fclose(ni_file);
     }
 
     if (ignored) return 1;
@@ -109,10 +109,10 @@ void cd(const char *src_dir, const char *dst_dir, const char *rel_path) {
         }
 
         if (strcmp(src_dir, ".") == 0 && (
-            strcmp(entry->d_name, "v") == 0 || 
+            strcmp(entry->d_name, "nix") == 0 || 
             strcmp(entry->d_name, "main") == 0 || 
-            strcmp(entry->d_name, ".v") == 0 || 
-            strcmp(entry->d_name, ".vi") == 0 || 
+            strcmp(entry->d_name, ".nix") == 0 || 
+            strcmp(entry->d_name, ".ni") == 0 || 
             strcmp(entry->d_name, ".git") == 0 || 
             strcmp(entry->d_name, ".gitignore") == 0
         )) {
@@ -157,7 +157,7 @@ void cd(const char *src_dir, const char *dst_dir, const char *rel_path) {
                     sha256_str[64] = '\0';
 
                     char blob_path[1100];
-                    snprintf(blob_path, sizeof(blob_path), ".v/objects/blobs/%s", sha256_str);
+                    snprintf(blob_path, sizeof(blob_path), ".nix/objects/blobs/%s", sha256_str);
                     
                     if (access(blob_path, F_OK) != 0) {
                         cf(src_path, blob_path);
@@ -205,7 +205,7 @@ void restore_version(const char *version_dir) {
             char blob_path[1100];
             char target_path[1100];
             
-            snprintf(blob_path, sizeof(blob_path), ".v/objects/blobs/%s", hash_str);
+            snprintf(blob_path, sizeof(blob_path), ".nix/objects/blobs/%s", hash_str);
             snprintf(target_path, sizeof(target_path), "./%s", filename);
 
             create_parent_dirs(target_path);
@@ -233,10 +233,10 @@ void dd(const char *src_dir) {
         }
 
         if (strcmp(src_dir, ".") == 0 && (
-            strcmp(entry->d_name, "v") == 0 || 
+            strcmp(entry->d_name, "nix") == 0 || 
             strcmp(entry->d_name, "main") == 0 || 
-            strcmp(entry->d_name, ".v") == 0 || 
-            strcmp(entry->d_name, ".vi") == 0 || 
+            strcmp(entry->d_name, ".nix") == 0 || 
+            strcmp(entry->d_name, ".ni") == 0 || 
             strcmp(entry->d_name, ".git") == 0 || 
             strcmp(entry->d_name, ".gitignore") == 0
         )) {

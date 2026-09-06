@@ -5,15 +5,16 @@ int main(int argc, char *argv[]) {
     int number = 0;
 
     if (argc < 2) {
-        printf("all commands: i, s\n");
+        /* printf("all commands: i, s\n"); */
+		printf("use:\n nix init <- create dir\n nix save <- save project\n nix reset <num> <- go back!\n (shh... don't tell anyone, but if you want your files or folders to be ignored, create a .ni or .gitignore file)\n");
         return 0;
     }
 
-    if (strcmp(argv[1], "i") == 0) {
-        safe_mkdir(".v");
-        safe_mkdir(".v/objects");
-        safe_mkdir(".v/objects/blobs");
-        FILE *fp = fopen(".vi", "w");
+    if (strcmp(argv[1], "init") == 0) {
+        safe_mkdir(".nix");
+        safe_mkdir(".nix/objects");
+        safe_mkdir(".nix/objects/blobs");
+        FILE *fp = fopen(".ni", "w");
         if (fp == NULL) {
             printf("maybe next time\n");
             return 1;
@@ -21,7 +22,7 @@ int main(int argc, char *argv[]) {
         fclose(fp);
     } else if (strcmp(argv[1], "s") == 0) {
         do {
-            sprintf(path, ".v/objects/%d", number);
+            sprintf(path, ".nix/objects/%d", number);
             number++;
         } while (access(path, F_OK) == 0); 
         
@@ -30,7 +31,7 @@ int main(int argc, char *argv[]) {
         printf("happy end!\n");
     } else if (strcmp(argv[1], "r") == 0) {
         if (argc >= 3) {
-            sprintf(path, ".v/objects/%s", argv[2]);
+            sprintf(path, ".nix/objects/%s", argv[2]);
         } else {
             printf("please, specify the version number for recovery\n");
             return 1;
