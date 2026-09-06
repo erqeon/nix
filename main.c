@@ -20,7 +20,7 @@ int main(int argc, char *argv[]) {
             return 1;
         }
         fclose(fp);
-    } else if (strcmp(argv[1], "s") == 0) {
+    } else if (strcmp(argv[1], "save") == 0) {
         do {
             sprintf(path, ".nix/objects/%d", number);
             number++;
@@ -29,7 +29,7 @@ int main(int argc, char *argv[]) {
         safe_mkdir(path);
         cd(".", path, "");
         printf("happy end!\n");
-    } else if (strcmp(argv[1], "r") == 0) {
+    } else if (strcmp(argv[1], "reset") == 0) {
         if (argc >= 3) {
             sprintf(path, ".nix/objects/%s", argv[2]);
         } else {
