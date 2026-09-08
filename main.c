@@ -1,3 +1,7 @@
+/*
+  i know the code is terrible too (worse than in mu)
+ */
+
 #include "cache.h"
 
 int main(int argc, char *argv[]) {
